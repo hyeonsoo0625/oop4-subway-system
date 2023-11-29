@@ -58,6 +58,6 @@ int main() {
         station[name2].addNeighbor(station[name1], distance, time);
 
     }
-    dijkstra(start, d, station);
+    shortTime(start, d, station);
     cout << "걸린 시간 : " << d[end];
 }

@@ -4,7 +4,7 @@
 #include <queue>
 using namespace std;
 
-void dijkstra(string start, unordered_map<string, int>& d, unordered_map<string, Station>& station) //객체의 역 이름 넣기
+void shortTime(string start, unordered_map<string, int>& d, unordered_map<string, Station>& station) //객체의 역 이름 넣기
 {
     priority_queue<pair<double, string>>pq; // 시간, 이름
 
