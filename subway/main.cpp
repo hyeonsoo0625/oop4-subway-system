@@ -36,20 +36,30 @@ int main() {
     string line;
     string name1;
     string name2;
+    int lineNum;
     while (getline(in, line)) {// 역:역:시간:거리
         vector<string> v = split(line, ':');
-        name1 = v[0];
-        name2 = v[1];
-        station[name1] = Station(name1);
-        station[name2] = Station(name2);
-        double time = stod(v[2]);
-        double distance = stod(v[3]);
+        lineNum = stoi(v[0]);
+        name1 = v[1];
+        name2 = v[2];
+        if (station.find(name1) == station.end()) {
+            station[name1] = Station(name1);
+            station[name1].setLine(lineNum);
+        }
+        if (station.find(name2) == station.end()) {
+            station[name2] = Station(name2);
+        }
+        double time = stod(v[3]);
+        double distance = stod(v[4]);
 
         station[name1].addNeighbor(station[name2], distance, time);
         station[name2].addNeighbor(station[name1], distance, time);
         d[name1] = 1e9;
     }
     d[name2] = 1e9;
-    shortTime(start, d, station);
+    vector<Station> route = shortTime(start, d, station, end);
+    for (Station station : route) {
+        cout << station.getName()<<endl;
+    }
     cout << "걸린 시간 : " << d[end];
 }

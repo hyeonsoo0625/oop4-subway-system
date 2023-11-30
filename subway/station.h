@@ -8,7 +8,7 @@ class Station {
 private:
     string name;
     vector<pair<Station, pair<double, double>>> neighborStations;
-    vector<int> lines;
+    int line;
 public:
     Station(string name) {
         this->name = name;
@@ -23,7 +23,7 @@ public:
     void addNeighbor(Station station, double distance, double time) {
         neighborStations.push_back(make_pair(station, make_pair(time, distance)));
     }
-    void addLine(int line) {
-        lines.push_back(line);
+    void setLine(int lineNum) {
+        line = lineNum;
     }
 };
