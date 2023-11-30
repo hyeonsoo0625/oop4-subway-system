@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <stack>
 using namespace std;
 
 
@@ -57,9 +58,11 @@ int main() {
         d[name1] = 1e9;
     }
     d[name2] = 1e9;
-    vector<Station> route = shortTime(start, d, station, end);
-    for (Station station : route) {
-        cout << station.getName()<<endl;
+    stack<Station> route = shortTime(start, d, station, end);
+    while (!route.empty()) {
+        Station station = route.top();
+        cout << station.getName() << endl;
+        route.pop();
     }
     cout << "걸린 시간 : " << d[end];
 }

@@ -1,39 +1,43 @@
-#include "station.h"
+ï»¿#include "station.h"
 #include <iostream>
 #include <unordered_map>
 #include <queue>
+#include <stack>
 using namespace std;
 
-vector<Station> shortTime(string start, unordered_map<string, double>& d, unordered_map<string, Station>& station, string end) //°´Ã¼ÀÇ ¿ª ÀÌ¸§ ³Ö±â
+stack<Station> shortTime(string start, unordered_map<string, double>& d, unordered_map<string, Station>& stations, string end) //ê°ì²´ì˜ ì—­ ì´ë¦„ ë„£ê¸°
 {
-    priority_queue<pair<double, string>>pq; // ½Ã°£, ÀÌ¸§
+    priority_queue<pair<double, string>>pq; // ì‹œê°„, ì´ë¦„
+    unordered_map<string, Station> previous; // ì´ì „ ì—­ ì €ì¥
 
-    pq.push({ 0,start }); //½ÃÀÛ -> ½ÃÀÛ, Ãâ¹ß id
+    pq.push({ 0,start }); //ì‹œì‘ -> ì‹œì‘, ì¶œë°œ id
     d[start] = 0;
-    vector<Station> route;//°æ·Î ÀúÀå º¯¼ö
-    bool dest = false;//°æ·Î ÆÇ´Ü¿ä¼Ò
-    route.push_back(start);
 
     while (!pq.empty()) {
-        double time = -pq.top().first; //ÇöÀç ³ëµå±îÁöÀÇ ºñ¿ë
-        string now = pq.top().second; // ÇöÀç ³ëµå
-        Station lowcostnode;//°æ·Î ÀúÀå º¯¼ö
+        double time = -pq.top().first; //í˜„ì¬ ë…¸ë“œê¹Œì§€ì˜ ë¹„ìš©
+        string now = pq.top().second; // í˜„ì¬ ë…¸ë“œ
         pq.pop();
 
-        if (now == end)
-            dest = true;
-        if (d[now] < time) // ÀÌ¹Ì ÃÖ´Ü°æ·Î¸¦ Ã¼Å©ÇÑ ³ëµåÀÎ °æ¿ì ÆĞ½º
+        if (d[now] < time) // ì´ë¯¸ ìµœë‹¨ê²½ë¡œë¥¼ ì²´í¬í•œ ë…¸ë“œì¸ ê²½ìš° íŒ¨ìŠ¤
             continue;
-        for (int i = 0; i < station[now].getNeighbor().size(); i++) {
-            double cost = time + station[now].getNeighbor()[i].second.first;
-            if (cost < d[station[now].getNeighbor()[i].first.getName()]) {
-                d[station[now].getNeighbor()[i].first.getName()] = cost;
-                pq.push(make_pair(-cost, station[now].getNeighbor()[i].first.getName()));
-                lowcostnode = station[now].getNeighbor()[i].first;
+        for (int i = 0; i < stations[now].getNeighbor().size(); i++) {
+            double cost = time + stations[now].getNeighbor()[i].second.first;
+            string next = stations[now].getNeighbor()[i].first.getName();
+
+            if (cost < d[next]) {
+                d[next] = cost;
+                pq.push(make_pair(-cost, next));
+                previous[next] = stations[now];
             }
         }
-        if (!dest)
-            route.push_back(lowcostnode);
     }
+
+    //ê²½ë¡œ ì¶”ì 
+    stack<Station> route;
+    for (Station station = stations[end]; station.getName() != start; station = previous[station.getName()]) {
+        route.push(station);
+    }
+    route.push(stations[start]);
+
     return route;
 }

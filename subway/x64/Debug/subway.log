@@ -1,3 +1,3 @@
 ﻿  main.cpp
-C:\Users\nara0\OneDrive\바탕 화면\oop4-subway-system\subway\main.cpp(26,9): warning C4101: 'a' :참조되지 않은 지역 변수입니다.
+C:\Users\nara0\OneDrive\바탕 화면\oop4-subway-system\subway\main.cpp(27,9): warning C4101: 'a' :참조되지 않은 지역 변수입니다.
   subway.vcxproj -> C:\Users\nara0\OneDrive\바탕 화면\oop4-subway-system\x64\Debug\subway.exe
